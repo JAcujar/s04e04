@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 function useCrudApi() {
 
-  const [data, setData] = useState(null)
+  const [data, setData] = useState([]) // <-- Un array vacio
   const [pending, setPending] = useState(false)
   const [error, setError] = useState(null)
 
@@ -19,10 +19,7 @@ function useCrudApi() {
         })
         switch (method) {
           case 'POST':
-            setData((prev) => ({
-              ...prev,
-              results: [res.data, ...prev.results]
-            }))
+            setData((prev) => [...prev, res.data]) // <-- Solo nos interesa el arreglo
             break
           case 'PUT':
           case 'PATCH':
@@ -32,7 +29,7 @@ function useCrudApi() {
             setData((prev) => prev.filter(i => i.id !== id))
             break
           default:
-            setData(res.data)
+            setData(res.data.results) // <-- Setiamos solo el arreglo
         }
       setData(res.data)
     } catch (error) {
