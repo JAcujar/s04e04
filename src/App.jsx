@@ -1,7 +1,10 @@
 import { useEffect, useReducer, useState } from 'react'
 import useCrudApi from './hooks/useCrudApi'
 import './App.css' 
+import Header from './components/Header'
 // https://users-crud-api-production-9c59.up.railway.app/api/v1/users
+
+
 
 const initialValues = {
   first_name: '',
@@ -75,7 +78,10 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='container '>
+
+      <Header title='USERS'/>
+
       <form className='w-64 px-4 mt-5' onSubmit={handleSubmit}>
 
         <div className='mb-4'>

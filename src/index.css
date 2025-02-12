@@ -20,12 +20,24 @@
 }
 
 @layer components {
+
+  .container {
+    @apply
+      mx-auto
+      px-5
+      lg:px-0
+      max-w-7xl
+  }
   .label {
     @apply flex flex-col font-semibold;
   }
 
   .input{
-    @apply border border-gray-400 font-normal rounded-md;
+    @apply 
+      border 
+      border-gray-400
+      font-normal
+      rounded-md;
   }
 
   .btn{
