@@ -21,6 +21,23 @@
 
 @layer components {
 
+  .image {
+    @apply
+      w-full
+      h-72
+      object-cover
+      rounded-full
+      pb-4
+  }
+  .item {
+    @apply
+    bg-white
+      p-4
+      rounded-lg
+      shadow-md
+      border
+  }
+
   .container {
     @apply
       mx-auto

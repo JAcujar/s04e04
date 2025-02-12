@@ -2,6 +2,7 @@ import { useEffect, useReducer, useState } from 'react'
 import useCrudApi from './hooks/useCrudApi'
 import './App.css' 
 import Header from './components/Header'
+import Card from './components/Card'
 // https://users-crud-api-production-9c59.up.railway.app/api/v1/users
 
 
@@ -82,7 +83,9 @@ function App() {
 
       <Header title='USERS'/>
 
-      <form className='w-64 px-4 mt-5' onSubmit={handleSubmit}>
+      <Card users={users} pending={pending} handleEdit={handleEdit} remove={remove} />
+
+      <form className='w-64  mt-5' onSubmit={handleSubmit}>
 
         <div className='mb-4'>
           <label className="label">
@@ -171,31 +174,7 @@ function App() {
 
       </form>
 
-      {error && <p className='mt-5 px-4 text-red-500'>{error}</p>}
-
-      {pending ? <p>Loading...</p> : 
-        <div>
-          <ul className='mt-5 px-4'>
-            {users && users.map(user => 
-              <li key={user.id} className='mb-3'>{user.first_name}
-                <button
-                  onClick={() => handleEdit(user)} 
-                  className='btn bg-amber-300 mx-2'>
-                  Edit
-                </button>
-                <button 
-                  onClick={() => remove(user.id)}
-                  className='btn bg-red-500 text-white'>
-                  Delete
-                </button>
-              </li>
-              
-            )}
-          </ul>
-          
-
-        </div>
-      }
+      {error && <p className='mt-5  text-red-500'>{error}</p>}
 
       {users.length === 0 &&
         <p className='mt-5 px-4'>Empty List</p>}
