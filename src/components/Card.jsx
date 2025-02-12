@@ -18,22 +18,29 @@ function Card({users, pending, handleEdit, remove}) {
 </div> */}
 
                 <p className="image">{user.image_url ? <img src={user.image_url} /> : <img src='/src/resources/blank-profile-picture-973460_1280.webp'/> }</p>
-                <h2 className="text-xl font-semibold pb-4">
-                  {user.first_name} {user.last_name}
-                </h2>
-                <p className="text-gray-600 text-xs mb-1">CORREO: </p>
-                <p className=" text-base">{user.email}</p>
+
+                <h2 className="text-xl font-semibold pb-4">{user.first_name} {user.last_name}</h2>
+
+                <p className="text-gray-600 text-xs pb-0.5">Email: </p>
+                <p className=" text-base pb-2.5">{user.email}</p>
+
+                <p className="text-gray-600 text-xs pb-0.5">Birthday: </p>
+                <p className="text-base pb-2.5">🎂 {user.birthday}</p>
+
+                <div className=" ">
+                  <button
+                    onClick={() => handleEdit(user)} 
+                    className='btn bg-amber-300 mx-2 '>
+                    🖊
+                  </button>
+                  <button 
+                    onClick={() => remove(user.id)}
+                    className='btn bg-red-500 text-white'>
+                    🗑
+                  </button>
+
+                </div>
                 
-                <button
-                  onClick={() => handleEdit(user)} 
-                  className='btn bg-amber-300 mx-2'>
-                  Edit
-                </button>
-                <button 
-                  onClick={() => remove(user.id)}
-                  className='btn bg-red-500 text-white'>
-                  Delete
-                </button>
               </div>
 
 
