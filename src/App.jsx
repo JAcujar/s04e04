@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import useCrudApi from './hooks/useCrudApi'
 import './App.css' 
 // https://users-crud-api-production-9c59.up.railway.app/api/v1/users
@@ -16,13 +16,7 @@ const baseUrl = 'https://users-crud-api-production-9c59.up.railway.app/api/v1/'
 function App() {
   const {data: users, pending, error, request} = useCrudApi()
   const [values, setValues] = useState(initialValues)
-
-  // const [firstName, setFirstName] = useState('')
-  // const [lastName, setLastName] = useState('')
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
-  // const [birthday, setBirthday] = useState('')
-  // const [imageUrl, setImageUrl] = useState('')
+  const [edit, setEdit] = useState(null)
 
   useEffect(() => {
     request({url: baseUrl + 'users'})
@@ -36,17 +30,48 @@ function App() {
     })
   }
 
+  const update = (id, userEdit) => {
+    request({
+      url: baseUrl + `users/${id}`,
+      method: 'PUT',
+      body: userEdit
+    })
+  }
+
+  const remove = (id) => {
+    request({
+      url: baseUrl + `users/${id}`,
+      method: 'DELETE',
+      id
+    })
+  }
+
   const handleChange = ({name, value}) => {
-    // console.log(name, value)
     setValues({
       ...values,
       [name]: value
     })
   }
 
+  const handleEdit = (user) => {
+    setEdit(user.id)
+    setValues(user)
+  }
+
+  const handleCancel = () => {
+    setEdit(null)
+    setValues(initialValues)
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    add(values)
+    if(edit) {
+      update(edit, values)
+      setEdit(null)
+    } else {
+      add(values)
+    }
+    setValues(initialValues)
   }
 
   return (
@@ -126,17 +151,48 @@ function App() {
           </label>
         </div>
       
-        <button type='submit' className='btn bg-blue-500 text-white'>
-          Create
+        <button
+          type='submit'
+          className={edit ? 'btn bg-amber-400 ' : 'btn bg-blue-500 text-white'}>
+          {edit ? 'Edit' : 'Create'}
         </button>
+        {edit &&
+          <button
+            onClick={handleCancel}
+            className='btn bg-black text-white ml-2'>
+            Cancel
+          </button>}
 
       </form>
 
-      {users && 
-        <pre>
-          {JSON.stringify(users, null, 2)}  
-        </pre>
+      {error && <p className='mt-5 px-4 text-red-500'>{error}</p>}
+
+      {pending ? <p>Loading...</p> : 
+        <div>
+          <ul className='mt-5 px-4'>
+            {users && users.map(user => 
+              <li key={user.id} className='mb-3'>{user.first_name}
+                <button
+                  onClick={() => handleEdit(user)} 
+                  className='btn bg-amber-300 mx-2'>
+                  Edit
+                </button>
+                <button 
+                  onClick={() => remove(user.id)}
+                  className='btn bg-red-500 text-white'>
+                  Delete
+                </button>
+              </li>
+              
+            )}
+          </ul>
+          
+
+        </div>
       }
+
+      {users.length === 0 && !pending &&
+        <p className='mt-5 px-4'>Empty List</p>}
 
       </div>
   )

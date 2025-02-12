@@ -19,7 +19,7 @@ function useCrudApi() {
         })
         switch (method) {
           case 'POST':
-            setData((prev) => [res.data, ...prev]) // <-- Solo nos interesa el arreglo
+            setData((prev) => [...prev, res.data]) // <-- Solo nos interesa el arreglo
             break
           case 'PUT':
           case 'PATCH':
