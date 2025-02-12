@@ -191,7 +191,7 @@ function App() {
         </div>
       }
 
-      {users.length === 0 && !pending &&
+      {users.length === 0 &&
         <p className='mt-5 px-4'>Empty List</p>}
 
       </div>
